@@ -9,55 +9,55 @@
  * };
  */
 
-#include <string>
-
 using namespace std;
 
 class Solution
 {
     private:
-        void list_to_string(ListNode* l, string& l_to_string)
+        void add_list_node(ListNode* l1, ListNode* l2, ListNode* new_l, int carry)
         {
-            l_to_string += to_string(l->val);
+            ListNode temp_l = ListNode();
 
-            if(l->next != nullptr)
+            if(l1 == nullptr)
             {
-                list_to_string(l->next, l_to_string);
+                l1 = &temp_l;
             }
-        }
 
-        void string_to_list(ListNode* l, const string& l_as_string, int l_as_string_position, int l_as_string_size)
-        {
-            l->val = stoi(string(1, l_as_string.at(l_as_string_position)));
-
-            if(++l_as_string_position < l_as_string_size)
+            if(l2 == nullptr)
             {
-                l->next = new ListNode();
+                l2 = &temp_l;
+            }
 
-                string_to_list(l->next, l_as_string, l_as_string_position, l_as_string_size);
+            new_l->val = l1->val + l2->val + carry;
+            
+            int new_carry = 0;
+
+            if(new_l->val > 9)
+            {
+                new_carry = new_l->val / 10;
+                new_l->val = new_l->val % 10;
+            }
+
+            if(l1->next != nullptr || l2->next != nullptr || new_carry != 0)
+            {
+                new_l->next = new ListNode();
+
+                add_list_node(l1->next, l2->next, new_l->next, new_carry);
             }
         }
 
     public:
         ListNode* addTwoNumbers(ListNode* l1, ListNode* l2)
         {
-            ListNode* lsummed_number = nullptr;
+            ListNode* new_l = nullptr;
 
-            string l1_to_string = "";
-            list_to_string(l1, l1_to_string);
-            reverse(l1_to_string.begin(), l1_to_string.end());
+            if(l1 != nullptr || l2 != nullptr)
+            {
+                new_l = new ListNode();
 
-            string l2_to_string = "";
-            list_to_string(l2, l2_to_string);
-            reverse(l2_to_string.begin(), l2_to_string.end());
+                add_list_node(l1, l2, new_l, 0);
+            }
 
-            string summed_number = to_string(stoi(l1_to_string) + stoi(l2_to_string));
-            reverse(summed_number.begin(), summed_number.end());
-
-            lsummed_number = new ListNode();
-
-            string_to_list(lsummed_number, summed_number, 0, summed_number.size());
-
-            return lsummed_number;
+            return new_l;
         }
 };
