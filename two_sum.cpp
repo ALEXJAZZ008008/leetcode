@@ -1,4 +1,6 @@
 #include <cstddef>
+#include <vector>
+#include <unordered_map>
 
 using namespace std;
 
@@ -7,34 +9,22 @@ class Solution
     public:
         vector<int> twoSum(vector<int>& nums, int target)
         {
-            vector<int> twoSum_solution_indicies = {};
-            bool solution_found = false;
+            unordered_map<int, int> seen_numbers = {};
 
-            size_t nums_size = nums.size();
-
-            for(size_t i = 0; i < nums_size; ++i)
+            for(int i = 0; i < nums.size(); ++i)
             {
-                int num_at_i = nums.at(i);
+                int nums_at_i = nums[i];
 
-                for(size_t j = i + 1; j < nums_size; ++j)
+                unordered_map<int, int>::const_iterator match = seen_numbers.find(target - nums_at_i);
+
+                if(match != seen_numbers.end())
                 {
-                    if(num_at_i + nums.at(j) == target)
-                    {
-                        twoSum_solution_indicies.push_back(i);
-                        twoSum_solution_indicies.push_back(j);
-
-                        solution_found = true;
-
-                        break;
-                    }
+                    return {match->second, i};
                 }
 
-                if(solution_found)
-                {
-                    break;
-                }
+                seen_numbers.emplace(nums_at_i, i);
             }
 
-            return twoSum_solution_indicies;
+            return {};
         }
 };
