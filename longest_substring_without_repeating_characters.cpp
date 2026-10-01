@@ -1,5 +1,5 @@
+#include <array>
 #include <string>
-#include <unordered_set>
 
 using namespace std;
 
@@ -10,19 +10,22 @@ class Solution
         {
             int longest_substring_size = 0;
 
-            unordered_set<char> seen_chars = {};
+            array<int, 256> last_seen;
+            last_seen.fill(-1);
 
             int left = 0;
 
             for(int right = 0; right < s.size(); ++right)
             {
-                while(seen_chars.find(s[right]) != seen_chars.end())
+                char s_at_right = s[right];
+
+                if(last_seen[s_at_right] >= left)
                 {
-                    seen_chars.erase(s[left]);
-                    ++left;
+                    left = last_seen[s_at_right] + 1;
                 }
 
-                seen_chars.insert(s[right]);
+                last_seen[s_at_right] = right;
+
 
                 int current_substring_size = right - left + 1;
 
