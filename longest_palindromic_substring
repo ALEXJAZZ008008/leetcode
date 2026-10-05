@@ -4,30 +4,6 @@ using namespace std;
 
 class Solution
 {
-    private:
-        bool is_palindrome(const string& current_palindrome_string)
-        {
-            bool is_palindrome_bool = true;
-
-            int left = 0;
-            int right = current_palindrome_string.size() - 1;
-
-            while(left < right)
-            {
-                if(current_palindrome_string.at(left) != current_palindrome_string.at(right))
-                {
-                    is_palindrome_bool = false;
-
-                    break;
-                }
-
-                ++left;
-                --right;
-            }
-
-            return is_palindrome_bool;
-        }
-
     public:
         string longestPalindrome(string s)
         {
@@ -48,26 +24,26 @@ class Solution
 
                 while(left >= 0 && right < s_size)
                 {
-                    int current_palindrome_string_size = (right - left) + 1;
-                    string current_palindrome_string = s.substr(left, current_palindrome_string_size);
-
-                    if(is_palindrome(current_palindrome_string))
+                    if(s.at(left) == s.at(right))
                     {
-                        if(current_palindrome_string_size > longest_palindrome_string_size)
+                        int current_longest_palindrome_string_size = (right - left) + 1;
+                        string current_longest_palindrome_string = s.substr(left, current_longest_palindrome_string_size);
+
+                        if(current_longest_palindrome_string_size > longest_palindrome_string_size)
                         {
-                            longest_palindrome_string = current_palindrome_string;
-                            longest_palindrome_string_size = current_palindrome_string_size;
+                            longest_palindrome_string = current_longest_palindrome_string;
+                            longest_palindrome_string_size = current_longest_palindrome_string_size;
                         }
+
+                        ++search_size_increment;
+
+                        left = centre_left - search_size_increment;
+                        right = centre_right + search_size_increment;
                     }
                     else
                     {
                         break;
                     }
-
-                    ++search_size_increment;
-
-                    left = centre_left - search_size_increment;
-                    right = centre_right + search_size_increment;
                 }
 
                 if(centre_left == centre_right)
