@@ -8,7 +8,9 @@ class Solution
         string longestPalindrome(string s)
         {
             string longest_palindrome_string = "";
-            int longest_palindrome_string_size = 0;
+
+            int longest_laindrome_left = 0;
+            int longest_palindrome_size = 0;
 
             int s_size = s.size();
 
@@ -25,12 +27,11 @@ class Solution
                     if(s.at(left) == s.at(right))
                     {
                         int current_longest_palindrome_string_size = (right - left) + 1;
-                        string current_longest_palindrome_string = s.substr(left, current_longest_palindrome_string_size);
-
-                        if(current_longest_palindrome_string_size > longest_palindrome_string_size)
+                        
+                        if(current_longest_palindrome_string_size > longest_palindrome_size)
                         {
-                            longest_palindrome_string = current_longest_palindrome_string;
-                            longest_palindrome_string_size = current_longest_palindrome_string_size;
+                            longest_laindrome_left = left;
+                            longest_palindrome_size = current_longest_palindrome_string_size;
                         }
 
                         --left;
@@ -51,6 +52,8 @@ class Solution
                     ++centre_left;
                 }
             }
+
+            longest_palindrome_string = s.substr(longest_laindrome_left, longest_palindrome_size);
 
             return longest_palindrome_string;
         }
