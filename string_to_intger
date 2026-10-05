@@ -1,0 +1,82 @@
+#include <limits>
+#include <string>
+
+using namespace std;
+
+class Solution
+{
+    public:
+        int myAtoi(const string& s)
+        {
+            int s_as_int = 0;
+
+            int s_size = s.size();
+            int i = 0;
+
+            bool positive = true;
+
+            int int_max = numeric_limits<int>::max();
+            int int_min = numeric_limits<int>::min();
+
+            while(i < s_size && s.at(i) == ' ')
+            {
+                ++i;
+            }
+
+            if(i < s_size)
+            {
+                char s_at_i = s.at(i);
+
+                if(s_at_i == '+' || s_at_i == '-')
+                {
+                    if(s_at_i == '-')
+                    {
+                        positive = false;
+                    }
+
+                    ++i;
+                }
+            }
+
+            while(i < s_size)
+            {
+                char s_at_i = s.at(i);
+
+                if(s_at_i < '0' || s_at_i > '9')
+                {
+                    break;
+                }
+
+                int s_at_i_as_int = s_at_i - '0';
+
+                if(positive)
+                {
+                    if(s_as_int > int_max / 10 || (s_as_int == int_max / 10 && s_at_i_as_int > int_max % 10))
+                    {
+                        s_as_int = int_max;
+
+                        break;
+                    }
+
+                    s_as_int *= 10;
+                    s_as_int += s_at_i_as_int;
+                }
+                else
+                {
+                    if(s_as_int < int_min / 10 || (s_as_int == int_min / 10 && s_at_i_as_int > -(int_min % 10)))
+                    {
+                        s_as_int = int_min;
+
+                        break;
+                    }
+
+                    s_as_int *= 10;
+                    s_as_int -= s_at_i_as_int;
+                }
+
+                ++i;
+            }
+
+            return s_as_int;
+        }
+};
