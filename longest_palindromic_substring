@@ -36,9 +36,17 @@ class Solution
 
             int s_size = s.size();
 
-            for(int left = 0; left < s_size; ++left)
+            int centre_left = 0;
+            int centre_right = 0;
+
+            while(centre_right <= s_size)
             {
-                for(int right = left + 1; right <= s_size; ++right)
+                int search_size_increment = 0;
+
+                int left = centre_left - search_size_increment;
+                int right = centre_right + search_size_increment;
+
+                while(left >= 0 && right <= s_size)
                 {
                     int current_palindrome_string_size = right - left;
                     string current_palindrome_string = s.substr(left, current_palindrome_string_size);
@@ -51,6 +59,24 @@ class Solution
                             longest_palindrome_string_size = current_palindrome_string_size;
                         }
                     }
+                    else
+                    {
+                        break;
+                    }
+
+                    ++search_size_increment;
+
+                    left = centre_left - search_size_increment;
+                    right = centre_right + search_size_increment;
+                }
+
+                if(centre_left == centre_right)
+                {
+                    ++centre_right;
+                }
+                else
+                {
+                    ++centre_left;
                 }
             }
 
