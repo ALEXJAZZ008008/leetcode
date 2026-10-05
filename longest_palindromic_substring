@@ -5,14 +5,14 @@ using namespace std;
 class Solution
 {
     private:
-        bool is_palindrome(string current_palindrome_string)
+        bool is_palindrome(const string& current_palindrome_string)
         {
             bool is_palindrome_bool = true;
 
             int left = 0;
             int right = current_palindrome_string.size() - 1;
 
-            while(left != right && right > left)
+            while(left < right)
             {
                 if(current_palindrome_string.at(left) != current_palindrome_string.at(right))
                 {
@@ -35,9 +35,6 @@ class Solution
             int longest_palindrome_string_size = 0;
 
             int s_size = s.size();
-
-            int left = 0;
-            int right = 0;
 
             for(int left = 0; left < s_size; ++left)
             {
