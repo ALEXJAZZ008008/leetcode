@@ -46,9 +46,9 @@ class Solution
                 int left = centre_left - search_size_increment;
                 int right = centre_right + search_size_increment;
 
-                while(left >= 0 && right <= s_size)
+                while(left >= 0 && right < s_size)
                 {
-                    int current_palindrome_string_size = right - left;
+                    int current_palindrome_string_size = (right - left) + 1;
                     string current_palindrome_string = s.substr(left, current_palindrome_string_size);
 
                     if(is_palindrome(current_palindrome_string))
