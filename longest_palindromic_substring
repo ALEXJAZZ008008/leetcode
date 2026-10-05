@@ -1,0 +1,62 @@
+#include <string>
+
+using namespace std;
+
+class Solution
+{
+    private:
+        bool is_palindrome(string current_palindrome_string)
+        {
+            bool is_palindrome_bool = true;
+
+            int left = 0;
+            int right = current_palindrome_string.size() - 1;
+
+            while(left != right && right > left)
+            {
+                if(current_palindrome_string.at(left) != current_palindrome_string.at(right))
+                {
+                    is_palindrome_bool = false;
+
+                    break;
+                }
+
+                ++left;
+                --right;
+            }
+
+            return is_palindrome_bool;
+        }
+
+    public:
+        string longestPalindrome(string s)
+        {
+            string longest_palindrome_string = "";
+            int longest_palindrome_string_size = 0;
+
+            int s_size = s.size();
+
+            int left = 0;
+            int right = 0;
+
+            for(int left = 0; left < s_size; ++left)
+            {
+                for(int right = left + 1; right <= s_size; ++right)
+                {
+                    int current_palindrome_string_size = right - left;
+                    string current_palindrome_string = s.substr(left, current_palindrome_string_size);
+
+                    if(is_palindrome(current_palindrome_string))
+                    {
+                        if(current_palindrome_string_size > longest_palindrome_string_size)
+                        {
+                            longest_palindrome_string = current_palindrome_string;
+                            longest_palindrome_string_size = current_palindrome_string_size;
+                        }
+                    }
+                }
+            }
+
+            return longest_palindrome_string;
+        }
+};
